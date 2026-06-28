@@ -1,0 +1,26 @@
+# systemd 服务单元示例（Linux 服务器）。
+# 部署步骤：
+#   1) 把 backend/ 上传到服务器，例如 /opt/forklift-fault/backend
+#   2) 在服务器建虚拟环境并装依赖：
+#        cd /opt/forklift-fault/backend
+#        python3.11 -m venv .venv && .venv/bin/pip install -r requirements.txt
+#   3) 复制本文件到 /etc/systemd/system/forklift-fault.service（按实际路径修改）
+#   4) systemctl daemon-reload && systemctl enable --now forklift-fault
+[Unit]
+Description=Forklift Fault Record API (FastAPI)
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/opt/forklift-fault/backend
+Environment=JWT_SECRET=please-change-this-secret
+Environment=ADMIN_USERNAME=admin
+Environment=ADMIN_PASSWORD=admin123
+# 如需 HTTPS(自签)：追加 --ssl-keyfile/--ssl-certfile，见 README
+ExecStart=/opt/forklift-fault/backend/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

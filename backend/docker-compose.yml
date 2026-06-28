@@ -1,0 +1,15 @@
+services:
+  forklift-api:
+    build: .
+    container_name: forklift-api
+    restart: unless-stopped
+    ports:
+      - "8010:8010"
+    environment:
+      JWT_SECRET: ${JWT_SECRET:-change-this-secret-in-production}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
+      JWT_EXP_HOURS: "168"
+    volumes:
+      # SQLite 持久化到代码目录的同级 data/（相对路径，跨主机通用）
+      - ../data:/app/data

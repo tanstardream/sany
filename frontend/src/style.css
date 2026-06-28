@@ -1,0 +1,35 @@
+* { box-sizing: border-box; }
+html, body, #app { height: 100%; margin: 0; }
+body {
+  font-family: -apple-system, "Segoe UI", "Microsoft YaHei", Roboto, sans-serif;
+  background: #f5f7fa;
+  color: #303133;
+}
+a { color: #409eff; text-decoration: none; }
+
+/* ===== 移动端适配 ===== */
+@media (max-width: 768px) {
+  /* 输入框 16px，防止 iOS 聚焦自动放大 */
+  .el-input__inner,
+  .el-textarea__inner,
+  .el-input-number .el-input__inner,
+  .el-date-editor .el-input__inner,
+  .el-select .el-input__inner {
+    font-size: 16px !important;
+  }
+  .el-main { padding: 8px !important; }
+  .el-card__body { padding: 10px; }
+  /* 内联筛选表单在手机上换行堆叠 */
+  .el-form--inline .el-form-item { margin-right: 0; margin-bottom: 8px; width: 100%; }
+  .el-form--inline .el-form-item:last-child { margin-bottom: 0; }
+  .el-pagination { flex-wrap: wrap; justify-content: center !important; }
+  /* 移动端卡片列表 */
+  .m-card { margin-bottom: 10px; }
+  .m-card .m-head { display: flex; justify-content: space-between; align-items: center; }
+  .m-card .m-date { color: #888; font-size: 13px; }
+  .m-card .m-forklift { color: #555; font-size: 13px; margin: 6px 0; }
+  .m-card .m-tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0; }
+  .m-card .m-desc { color: #606266; font-size: 13px; margin: 6px 0; line-height: 1.5; }
+  .m-card .m-meta { display: flex; gap: 12px; flex-wrap: wrap; color: #909399; font-size: 12px; margin: 6px 0; }
+  .m-card .m-actions { display: flex; gap: 8px; margin-top: 8px; }
+}
