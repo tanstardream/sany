@@ -82,8 +82,10 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import http from '../api'
 import { useBreakpoint } from '../composables/useBreakpoint'
+import { useDictStore } from '../stores/dicts'
 
 const { isMobile } = useBreakpoint()
+const dictStore = useDictStore()
 
 const TYPES = [
   { key: 'brands', label: '品牌' },
@@ -109,6 +111,7 @@ const form = reactive({ id: null, name: '', brand_id: null, specs: '', sort_orde
 
 async function load() {
   loading.value = true
+  dictStore.invalidate(activeType.value)
   try {
     const { data } = await http.get(`/api/dicts/${activeType.value}`, {
       // 不传 active 参数，后端返回"启用+停用"全集

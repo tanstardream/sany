@@ -83,8 +83,10 @@ import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import http from '../api'
 import { useBreakpoint } from '../composables/useBreakpoint'
+import { useDictStore } from '../stores/dicts'
 
 const { isMobile } = useBreakpoint()
+const dictStore = useDictStore()
 
 const props = defineProps({
   modelValue: { type: [Number, String, null], default: null },
@@ -103,9 +105,13 @@ const loading = ref(false)
 async function load() {
   loading.value = true
   try {
-    const params = props.includeInactive ? {} : { active: true }
-    const { data } = await http.get(`/api/dicts/${props.dtype}`, { params })
-    options.value = data
+    if (props.includeInactive) {
+      // 需要含停用项时绕过缓存，直接拉全量
+      const { data } = await http.get(`/api/dicts/${props.dtype}`)
+      options.value = data
+    } else {
+      options.value = await dictStore.get(props.dtype)
+    }
   } finally {
     loading.value = false
   }
@@ -169,6 +175,7 @@ async function doCreate() {
     const payload = { name: form.value.name.trim(), is_active: true }
     for (const f of props.extraFields) payload[f.key] = form.value[f.key]
     const { data } = await http.post(`/api/dicts/${props.dtype}`, payload)
+    dictStore.invalidate(props.dtype)
     await load()
     emit('update:modelValue', data.id)
     emit('created', data)

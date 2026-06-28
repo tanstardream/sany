@@ -40,7 +40,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Menu, Plus } from '@element-plus/icons-vue'
 import { useAuthStore } from '../stores/auth'
@@ -67,6 +67,18 @@ function logout() {
   auth.logout()
   router.push('/login')
 }
+
+// 空闲时预热各页面 chunk，消除首次切换页面时的下载卡顿
+onMounted(() => {
+  setTimeout(() => {
+    import('../views/Dashboard.vue')
+    import('../views/FaultList.vue')
+    import('../views/FaultForm.vue')
+    import('../views/ForkliftList.vue')
+    import('../views/DictManage.vue')
+    import('../views/UserManage.vue')
+  }, 1500)
+})
 </script>
 
 <style scoped>
