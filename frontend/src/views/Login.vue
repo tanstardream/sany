@@ -21,7 +21,7 @@
         </el-form-item>
         <el-button type="primary" style="width: 100%" :loading="loading" @click="doLogin">登 录</el-button>
       </el-form>
-      <div class="hint">默认管理员：admin / admin123（首次登录后请修改密码）</div>
+      <div class="hint">首次登录后，请在「用户管理」中修改密码</div>
     </el-card>
   </div>
 </template>
