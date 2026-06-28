@@ -6,7 +6,7 @@
         前端可托管在任意位置（如 GitHub Pages）。请填写后端 API 地址，<br />
         例如服务器上的地址：<code>http://10.0.0.152:8000</code>
       </p>
-      <el-input v-model="url" placeholder="https://sany.asos233.com" clearable>
+      <el-input v-model="url" placeholder="https://api.asos233.com" clearable>
         <template #prepend>API 地址</template>
       </el-input>
       <div class="actions">
@@ -41,7 +41,7 @@ import { setBackend } from '../api'
 
 const auth = useAuthStore()
 const router = useRouter()
-const url = ref(auth.backend || 'https://sany.asos233.com')
+const url = ref(auth.backend || 'https://api.asos233.com')
 const testing = ref(false)
 const result = ref(null)
 
